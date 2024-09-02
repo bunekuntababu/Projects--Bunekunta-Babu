@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Translator</title>
+    <style>
+        body { 
+        font-family: Arial, sans-serif; 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        height: 100vh; 
+        background-color: #3bcb1b; 
+        margin: 0; 
+        }
+          
+        .translator { 
+        background-color: rgb(234, 125, 125); 
+        padding: 20px; 
+        border-radius: 10px; 
+        box-shadow: -20px -13px 20px 0px black;
+         }
+        textarea { 
+        width: 100%; 
+        height: 100px; 
+        margin-bottom: 10px; 
+        padding: 10px; 
+        font-size: 16px; 
+        }
+
+        select, button { 
+        padding: 10px 20px; 
+        font-size: 16px; 
+        cursor: pointer; 
+        margin-right: 10px; 
+        }
+
+        button { 
+        background-color: #007BFF; 
+        color: white; 
+        border: none; 
+        border-radius: 5px; 
+    }
+        button:hover { 
+        background-color: #0056b3; }
+        #outputText { 
+        margin-top: 20px; 
+        font-size: 18px; }
+    </style>
+</head>
+<body>
+    <div class="translator">
+        <h1>Translator</h1>
+        <textarea id="inputText" placeholder="Enter text to translate"></textarea>
+        <br/>
+        <select id="languageSelect">
+            <option value="te">Telugu</option>
+            <option value="ta">Tamil</option>
+            <option value="kn">Kannada</option>
+            <option value="hi">Hindi</option>
+        </select>
+        <button onclick="translateText()">Translate</button>
+        <h2>Translation:</h2>
+        <p id="outputText"></p>
+        <footer><i>@.Created By Bunekunta Babu</i></footer>
+    </div>
+
+    <script>
+        function translateText() {
+            const inputText = document.getElementById('inputText').value;
+            const selectedLanguage = document.getElementById('languageSelect').value;
+            const apiUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(inputText)}&langpair=en|${selectedLanguage}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('outputText').innerText = data.responseData.translatedText;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('outputText').innerText = 'Translation failed. Please try again.';
+                });
+        }
+    </script>
+</body>
+</html>
