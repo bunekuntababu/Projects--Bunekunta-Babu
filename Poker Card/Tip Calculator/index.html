@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator</title>
+    <style>
+        body{
+    background-color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15vh;
+}
+.container{
+    background-color: rgb(229, 198, 24);
+    padding: 40px;
+    max-width: 400px;
+    width: 50%;
+    border-radius: 10px;
+}
+h2{
+    color: darkblue;
+    text-align: center;
+    margin-bottom: 10px;
+}
+input{
+    padding: 1px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid burlywood;
+    padding: 7px;
+    border-radius: 10px;
+    font-weight: bolder;
+    font-size: 20px;
+}
+label{
+    font-size: 20px;
+    font-style: oblique;
+}
+button{
+    margin: 20px 0px 0px 70px;
+    border-radius: 8px;
+    padding: 10px;
+    position: relative;
+    background-color: green;
+    color: white;
+    font-size: 15px;
+}
+button:hover{
+    background-color: black;
+    color: white;
+}
+#result{
+    font-size: 20px;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <h2 class="heading">Tip Calculator</h2>
+        <form id="Calculator">
+            <label for="bill_amount">Bill Amount :</label>
+            <input type="number" id="bill_amount">
+            <br>
+
+            <label for="tip">Tip Percentage :</label>
+            <input type="number" id="tip">
+            <br>
+
+            <button type="button" id="calculate" onclick="calculate_tip()">Calculate</button>
+        </form>
+
+        <div id="result">
+            <p id="tip_result"></p>
+            <p id="Total"></p>
+        </div>
+
+    </div>
+    <script>
+    function calculate_tip(){
+    const bill_amount = parseFloat(document.getElementById('bill_amount').value);
+    const tip = parseFloat(document.getElementById('tip').value);
+    const tip_amount = bill_amount*(tip/100);
+    const total = bill_amount + (tip_amount);
+
+    document.getElementById("tip_result").innerHTML = `Tip : ${tip_amount}`;
+    document.getElementById("Total").innerHTML = `Total amount is : ${total}`;
+};
+
+    </script>
+</body>
+</html>

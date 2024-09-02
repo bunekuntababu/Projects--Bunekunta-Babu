@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog Clock</title>
+    <style>
+    body{
+        background-color: bisque;
+      }
+    .clock {
+    height: 300px;
+    width: 300px;
+    background-color: rgb(21, 22, 21);
+    border-radius: 50%;
+    position: relative;
+    margin: 100px auto;
+    border: 8px solid hsl(0, 34%, 27%);
+  }
+  
+  .numbers > span {
+    position: absolute;
+    color: #fff;
+  }
+  
+  .tweleve {
+    left: 50%;
+    top: 8px;
+    transform: translateX(-50%);
+  }
+  
+  .six {
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .nine {
+    top: 50%;
+    left: 8px;
+    transform: translateY(-50%);
+  }
+  
+  .three {
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+  }
+  
+  .hands {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .dot {
+    height: 8px;
+    width: 8px;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+  }
+  
+  .hour {
+    height: 32px;
+    width: 4px;
+    border: 1px solid;
+    position: absolute;
+    bottom: 50%;
+    transform-origin: bottom;
+    background-color: #fff;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .minute {
+    height: 80px;
+    width: 4px;
+    border: 1px solid;
+    position: absolute;
+    bottom: 50%;
+    transform-origin: bottom;
+    background-color: #fff;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .second {
+    height: 96px;
+    width: 2px;
+    background-color: mediumseagreen;
+    position: absolute;
+    bottom: 50%;
+    transform-origin: bottom;
+    border-radius: 8px 8px 0 0;
+  }
+  h1{
+    text-align: center;
+    color: cornflowerblue;
+  }
+  /* u{
+    color: brown;
+  } */
+    </style>
+</head>
+
+<body>
+    <h1><u>Anolog Clock ⏲️</u></h1>
+    <main>
+        <section class="clock">
+
+            <section class="numbers">
+                <span class="tweleve">12</span>
+                <span class="three">3</span>
+                <span class="six">6</span>
+                <span class="nine">9</span>
+            </section>
+            <section class="hands">
+                <span class="dot"></span>
+                <span class="hour"></span>
+                <span class="minute"></span>
+                <span class="second"></span>
+            </section>
+        </section>
+    </main>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const hoursHand = document.querySelector(".hour");
+    const minutesHand = document.querySelector(".minute");
+    const secondsHand = document.querySelector(".second");
+
+    function setTime() {
+
+        const now = new Date();
+        const seconds = now.getSeconds();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+
+        const secondsInDegrees = (seconds / 60) * 360;
+        const minutesInDegrees = (minutes / 60) * 360;
+        const hoursInDegrees = (hours / 12) * 360;
+
+        secondsHand.style.transform = "rotate(" + secondsInDegrees + "deg)";
+        minutesHand.style.transform = "rotate(" + minutesInDegrees + "deg)";
+        hoursHand.style.transform = "rotate(" + hoursInDegrees + "deg)";
+    }
+    // 1000ms = 1s
+    setTime();
+    setInterval(setTime, 1000);
+})
+    </script>
+</body>
+
+</html>

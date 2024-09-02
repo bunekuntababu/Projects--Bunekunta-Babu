@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- <link rel="stylesheet" href="style.css"> -->
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            body{
+                height: 100px;
+                display: flex;
+                margin-top: 200px;
+
+                align-items: center;
+                justify-content: center;
+                font:bold 12px solid 🛰️;
+                background-color: rgb(26, 27, 27);
+            }
+            .clock{
+                border: 3px solid #171616;
+                box-shadow: 5px 5px 20px rgb(216, 216, 233);
+                color: rgb(36, 82, 209);
+                padding: 40px;
+                border-radius: 10px;
+                background-color: #16d119;
+            }
+            #Date{
+                font-size: 20px;
+                text-align: center;
+            }
+            .clock ul{
+                list-style: none;
+                display: flex;
+                font-size: 90px;
+                gap: 15px;
+            }
+            h1{
+                color: rgb(206, 60, 11);
+                text-align: center;
+            }
+
+        </style>
+    </head>
+    <body>
+        <h1>Digital Clock---></h1>
+        <div class="container">
+            <div class="clock">
+                <div id="Date">Monday 26 September 2024</div>
+
+                <ul>
+                <li id="hours">05</li>
+                    <li id="point">:</li>
+                    <li id="min">20</li>
+                    <li id="point">:</li>
+                    <li id="sec">30</li>
+                </ul>
+            </div>
+        </div>
+        <script src=""></script>
+        <script>
+
+            function clock(){
+                
+                var monthNames = [ "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "sDecember" ]; 
+                var dayNames= ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+
+                var today = new Date();
+
+                document.getElementById('Date').innerHTML = (dayNames[today.getDay()] + " " + 
+                today.getDate() + ' ' + monthNames[today.getMonth()] + ' ' +today.getFullYear());
+
+                
+                var h = today.getHours();
+                var m = today.getMinutes();
+                var s = today.getSeconds();
+                var am_pm = "AM";
+
+                if (h >= 12) {
+                    am_pm = "PM";
+                    if (h > 12) {
+                        h -= 12;
+                    }
+                } else if (h == 0) {
+                    h = 12;         
+                }
+                
+                h = h<10? '0'+h: h;
+                m = m<10? '0'+m: m;
+                s = s<10? '0'+s: s;               
+
+                document.getElementById('hours').innerHTML = h;
+                document.getElementById('min').innerHTML = m;
+                document.getElementById('sec').innerHTML = s;
+
+            }var inter = setInterval(clock,1000);
+
+        </script>
+    </body>
+</html>

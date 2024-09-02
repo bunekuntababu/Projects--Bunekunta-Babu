@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <style>
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.calendar {
+  display: flex;
+  flex-direction: column;
+  width: 520px;
+  height: 700px;
+
+  /* border: 1px solid; */
+  padding: 16px;
+  box-shadow: 1px 1px 12px 2px;
+  border-radius: 16px;
+            overflow: hidden;
+}
+
+.calendar > header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: hsl(300 50% 60%);
+  margin: -16px -16px 0;
+  color: hsl(0deg 9.38% 91.76%);
+  size: 1.5rem;
+  gap: 8px;
+  padding: 16px 0;
+}
+
+.calendar header > h2,
+.calendar header > p {
+  margin: 0;
+}
+
+#full-date {
+  font-weight: 600;
+}
+
+.calendar .week,
+.calendar .days {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.calendar .days {
+  flex-wrap: wrap;
+}
+
+.calendar .week > p {
+  font-weight: 600;
+  flex: 0 0 50px;
+  text-align: center;
+}
+.calendar .days .date {
+  flex: 0 0 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.today {
+  position: relative;
+
+  font-weight: 600;
+}
+.today::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  border: 2px solid hsl(239 50% 50%);
+  border-radius: 50%;
+}
+
+    </style>
+</head>
+
+<body>
+    
+    <main class="container">
+        <article class="calendar">
+            <header>
+                <h2 id="current-month">Current Month</h2>
+                <p id="full-date"> Full date</p>
+            </header>
+            <section class="week">
+                <p>Sun</p>
+                <p>Mon</p>
+                <p>Tue</p>
+                <p>Wed</p>
+                <p>Thu</p>
+                <p>Fri</p>
+                <p>Sat</p>
+            </section>
+            <section class="days">
+                <p class="date"></p>
+                <p class="date"></p>
+                <p class="date"></p>
+                <p class="date">2</p>
+                <p class="date">3</p>
+                <p class="date">4</p>
+                <p class="date">5</p>
+                <p class="date">6</p>
+                <p class="date">7</p>
+            </section>
+        </article>
+    </main>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+
+const months = ["January", "February", "March",
+    "April", "May", "June", "July",
+    "August", "September", "October",
+    "November", "December"
+]
+
+const totalDaysOfTheWeek = 6 // numbering starts from 0 t0 6  = 7 days
+const today = new Date();
+// today.setDate(20);
+const currentMonthIndex = today.getMonth(); // 0 - 11
+document.getElementById("current-month").textContent = months[currentMonthIndex];
+document.getElementById("full-date").textContent = today.toDateString();
+
+// what was the day of the week(Mon or Tue....Sun) on the 1st date of that month
+const firstDayOfTheMonth = new Date(today.getFullYear(), today.getMonth(), 1).getDay();
+console.log(firstDayOfTheMonth);
+
+// which day of the week was the last date on.
+const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDay();
+// how many days are there in the current month
+const numberOfDaysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+console.log(numberOfDaysInMonth);
+
+let daysHTML = "";
+
+const daysElement = document.querySelector(".days");
+
+// loop for prinitng empty dates
+for (let index = 0; index < firstDayOfTheMonth; index++) {
+    daysHTML += "<p class=\"date\">" + "</p>"
+}
+
+
+// loop for printing the dates
+for (let date = 1; date <= numberOfDaysInMonth; date++) {
+    if (today.getDate() === date) {
+
+        daysHTML += "<p class=\"date today\">" + date + "</p>"
+    } else {
+        daysHTML += "<p class=\"date\">" + date + "</p>"
+    }
+}
+
+// to print empty dates in case the last day of the month doesn't fall on 
+// saturday
+if (lastDay < totalDaysOfTheWeek) {
+    console.log(lastDay)
+    for (let index = lastDay; index < totalDaysOfTheWeek; index++) {
+        daysHTML += "<p class=\"date\">" + "</p>"
+    }
+}
+
+
+
+console.log(daysHTML);
+daysElement.innerHTML = daysHTML;
+
+})
+    </script>
+</body>
+
+</html>
