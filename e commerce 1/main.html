@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const cardsPerRow = 5; // Display 5 cards at a time
+
+    document.querySelectorAll('.product-section').forEach(section => {
+        const productCards = section.querySelectorAll('.product-card');
+        let currentIndex = 0;
+
+        function displayCards(index) {
+            productCards.forEach((card, i) => {
+                card.style.display = (i >= index && i < index + cardsPerRow) ? 'inline-block' : 'none';
+            });
+        }
+
+        // Show the first 5 cards
+        displayCards(currentIndex);
+
+        // Event listener for next button
+        section.querySelector('.next-button').addEventListener('click', () => {
+            currentIndex = (currentIndex + cardsPerRow) % productCards.length;
+            displayCards(currentIndex);
+        });
+
+        // Event listener for previous button
+        section.querySelector('.prev-button').addEventListener('click', () => {
+            currentIndex = (currentIndex - cardsPerRow + productCards.length) % productCards.length;
+            displayCards(currentIndex);
+        });
+    });
+
+
+
+
+    //Adding items to wishlist
+    let wishListCount=document.querySelector('#wishlist-link span');
+    let heartButtons=document.querySelectorAll('.heart-button');
+
+    heartButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            button.classList.toggle('active');
+            let activeCount = document.querySelectorAll('.heart-button.active').length;
+            console.log(`Active items: ${activeCount}`);
+            wishListCount.innerHTML = activeCount;
+ 
+        })
+    })
+
+    document.getElementById('color-selector').addEventListener('change', function() {
+    const selectedColor = this.value;
+    updateProductDetails(selectedColor); // function to update image, description, etc.
+    });
+
+    
+//Cart
+ // Select the cart count span element
+ let cartCount = document.querySelector('#cart-link span');
+    
+    // Select all buttons within product cards
+    let cartButtons = document.querySelectorAll('.product-card .blue-button');
+    
+    // Loop through each button
+    cartButtons.forEach((button) => {
+        // Add event listener to each button
+        button.addEventListener('click', () => {
+            // Toggle active class to button
+            button.classList.toggle('active');
+    
+            // Update cart count based on how many buttons are active
+            let activeCount = document.querySelectorAll('.product-card .blue-button.active').length;
+            cartCount.innerHTML = activeCount; // Update cart count display
+    
+            // Change button text based on its current state
+            if (button.classList.contains('active')) {
+                button.innerHTML = "Remove"; // Change text to Remove
+            } else {
+                button.innerHTML = "Add to Cart"; // Change text back to Add to Cart
+            }
+        });
+    });
+})
+
+    </script>
+</head>
+<body>
+    <!-- <script src="main.js"></script> -->
+    <nav>
+        <div id="navbar">
+            <div id="navbar-logo">
+                <img src="https://img.freepik.com/free-vector/gradient-mobile-store-logo-design_23-2149697771.jpg?semt=ais_hybrid" alt="">
+            </div>
+            <div id="navbar-links">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#product-category-container">Products</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+                <div id="navbar-tools">
+                    <a id="cart-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                          </svg>
+                          <span>0</span>
+                    </a>
+                    <a id="wishlist-link" > 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bag-heart" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0M14 14V5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1M8 7.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132"/>
+                      </svg>
+                      <span>0</span>
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+    </nav>
+</body>
+<!-- main body  -->
+<body>
+<div id="product-page-body">
+    <!-- top section -->
+     <div id="product-top-container">
+        <div id="product-top-wrapper">
+            <div id="product-top-text-section">
+                <h1>Latest Trending</h1>
+                <h2>Wireless Headphones</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing <br>elit. Est, laborum nemo m.</p>
+                <a href="#product-category-container">
+                <button  class="blue-button">
+                    ShopNow
+
+                </button>
+                </a>
+            </div>
+            <!-- <div id="product-top-image-section">
+               <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/top_image.png?raw=true" alt=""> -->
+            </div> 
+        </div>
+        </div>
+        </div>
+
+        <!-- Products Categories -->
+         <div id="product-category-container" class="product-category-container">
+            <div id="product-category-text">
+                <span class="blue-line"></span>
+                <span class="section-category-text">Category</span>
+            </div>
+            <a href="#product-section-all"></a>
+            <div class="product-category-wrapper">
+                <a href="#product-section-all">
+                <div class="product-category">
+                    <div class="product-category-image-section">
+                        <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/product%20category/all.png?raw=true" alt="Image Collection Container All Categories">
+                    </div>
+                </a>
+                    <div class="product-category-desc-section">
+                        <span class="product-category-type">All</span>
+                        <span class="product-category-number">
+                            60 items
+                        </span>
+                    </div>
+                </div>
+                <div class="product-category">
+                    <a href="#product-section-bluetooth">
+                    <div class="product-category-image-section">
+                        <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/product%20category/headphone.png?raw=true" alt="Image Collection Container Headphones Categories">
+                    </div>
+                    </a>
+                    <div class="product-category-desc-section">
+                        <span class="product-category-type">Headphone</span>
+                        <span class="product-category-number">
+                        12 items
+                        </span>
+                    
+                    </div>
+            
+                </div>
+                <div class="product-category">
+                    <a href="#product-section-smartwatch">
+                    <div class="product-category-image-section">
+                        <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/product%20category/watch.png?raw=true" alt="Image Collection Container Smartwatch Categories" height="100px" width="100px">
+                    </div>
+                    </a>
+                    <div class="product-category-desc-section">
+                        <span class="product-category-type">Smartwatch</span>
+                        <span class="product-category-number">
+                            12 items
+                        </span>
+                    </div>
+                    
+                </div>
+                <div class="product-category">
+                    <a href="#product-section-mobiles">
+                    <div class="product-category-image-section">
+                        <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/product%20category/phone.png?raw=true" alt="Image Collection Container phone Categories">
+                    </div>
+                    </a>
+                    <div class="product-category-desc-section">
+                        <span class="product-category-type">Phone</span>
+                        <span class="product-category-number">
+                            12 items
+                        </span>
+                    </div>
+                </div>
+                <div class="product-category">
+                    <a href="#product-section-tablets">
+                    <div class="product-category-image-section">
+                        <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/product%20category/ipad.png?raw=true" alt="Image Collection Container Tablet Categories">
+                    </div>
+                    </a>
+                    <div class="product-category-desc-section">
+                        <span class="product-category-type">Tablet</span>
+                        <span class="product-category-number">
+                            12 items
+                        </span>
+                    </div>
+                    
+                </div>
+                <div class="product-category">
+                    <a href="#product-section-laptops">
+                    <div class="product-category-image-section">
+                        <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/product%20category/laptop.png?raw=true" alt="Image Collection Container Laptop Categories">
+                    </div>
+                    </a>
+                    <div class="product-category-desc-section">
+                        <span class="product-category-type">Laptop</span>
+                        <span class="product-category-number">
+                            12 items
+                        </span>
+                     </div>
+                 </div>
+             </div>  
+         </div>
+
+
+         <!-- Product cards/Slideshow -->
+          <div class="product-section" id="product-section-all">
+            <div class="product-section-top-container">
+                <div class="section-category-container">
+                    <div class="section-category-type">
+                    <span class="blue-line"></span>
+                    <span class="section-category-text"> All Categories</span>
+                </div>
+                <h1>Explore Best Sellers</h1>
+                </div>
+                <div class="slideshow-buttons-container" data-slideshow="all">
+                    <button class="slideshow-button prev-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                          </svg>
+                    </button>
+                    <button class="slideshow-button next-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                          </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="product-cards-container">
+                <ul>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/headphone%20collection/01.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Navy Headphones</h1>
+                            <p>$87.99</p>
+                            <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/homepage/ipad.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>I Pads</h1>
+                            <p>$100.99</p>
+                            <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/laptop%20collection/01.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>laptop</h1>
+                            <p>$55.99</p>
+                            <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/product%20category/watch.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Smart Watch</h1>
+                            <p>$87.99</p>
+                            <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/product%20category/phone.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Phone</h1>
+                            <p>$87.99</p>
+                            <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/tablet%20collection/08.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Tablet</h1>
+                            <p>$87.99</p>
+                            <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </div>
+          
+         </div> 
+         <!-- Bluetooths -->
+         <div class="product-section" id="product-section-bluetooth">
+            <div class="product-section-top-container">
+                <div class="section-category-container">
+                    <div class="section-category-type">
+                    <span class="blue-line"></span>
+                    <span class="section-category-text"> Headphones</span>
+                </div>
+                <h1>Discover Our Headphones</h1>
+                </div>
+                <div class="slideshow-buttons-container" data-slideshow="all">
+                    <button class="slideshow-button prev-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                          </svg>
+                    </button>
+                    <button class="slideshow-button next-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                          </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="product-cards-container">
+                <ul>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/headphone%20collection/01.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Headphone 1</h1>
+                            <p>$87.99</p>
+                            <a href="order.html">
+                            <button class="order">Buy Now</button></a>
+                            <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/headphone%20collection/02.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Headphone 2</h1>
+                            <p>$100.99</p>
+                            <a href="order.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/headphone%20collection/03.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Headphone 3</h1>
+                            <p>$55.99</p>
+                            <a href="order.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/headphone%20collection/04.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Headphone 4</h1>
+                            <p>$87.99</p>
+                            <a href="order.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/headphone%20collection/05.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Headphone 5</h1>
+                            <p>$87.99</p>
+                            <a href="order.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/headphone%20collection/06.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Headphone 6</h1>
+                            <p>$87.99</p>
+                            <a href="order.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/headphone%20collection/07.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Headphone 7</h1>
+                            <p>$87.99</p>
+                            <a href="order.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/headphone%20collection/08.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Headphone 8</h1>
+                            <p>$87.99</p>
+                            <a href="order.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/headphone%20collection/09.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Headphone 9</h1>
+                            <p>$87.99</p>
+                            <a href="order.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/headphone%20collection/10.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Headphone 10</h1>
+                            <p>$87.99</p>
+                            <a href="order.html">
+                            <button class="order">Buy Now</button></a>
+                            <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/headphone%20collection/11.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Headphone 11</h1>
+                            <p>$87.99</p>
+                            <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/headphone%20collection/11.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Headphone 12</h1>
+                            <p>$87.99</p>
+                            <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </div>
+          
+         </div> 
+         <!-- mobiles -->
+         <div class="product-section" id="product-section-mobiles">
+            <div class="product-section-top-container">
+                <div class="section-category-container">
+                    <div class="section-category-type">
+                    <span class="blue-line"></span>
+                    <span class="section-category-text"> Mobile</span>
+                </div>
+                <h1>Discover Our Mobiles</h1>
+                </div>
+                <div class="slideshow-buttons-container" data-slideshow="all">
+                    <button class="slideshow-button prev-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                          </svg>
+                    </button>
+                    <button class="slideshow-button next-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                          </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="product-cards-container">
+                <ul>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/mobile%20collection/01.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>phone 1</h1>
+                            <p>$87.99</p>
+                            <a href="order1.html">
+                            <button class="order"> Buy Now</button></a>
+                            <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/mobile%20collection/02.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>phone 2</h1>
+                            <p>$100.99</p>
+                            <a href="order1.html">
+                                <button class="order"> Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/mobile%20collection/03.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>phone 3</h1>
+                            <p>$55.99</p>
+                            <a href="order1.html">
+                                <button class="order"> Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/mobile%20collection/04.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>phone 4</h1>
+                            <p>$87.99</p>
+                            <a href="order1.html">
+                                <button class="order"> Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/mobile%20collection/05.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>phone 5</h1>
+                            <p>$87.99</p>
+                            <a href="order1.html">
+                                <button class="order"> Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/mobile%20collection/06.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>phone 6</h1>
+                            <p>$87.99</p>
+                            <a href="order1.html">
+                                <button class="order"> Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/mobile%20collection/07.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>phone 7</h1>
+                            <p>$87.99</p>
+                            <a href="order1.html">
+                                <button class="order"> Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/mobile%20collection/08.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>phone 8</h1>
+                            <p>$87.99</p>
+                            <a href="order1.html">
+                                <button class="order"> Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/mobile%20collection/09.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>phone 9</h1>
+                            <p>$77.99</p>
+                            <a href="order1.html">
+                                <button class="order"> Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/mobile%20collection/10.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Phone 10</h1>
+                            <p>$87.99</p>
+                            <a href="order1.html">
+                                <button class="order"> Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/mobile%20collection/11.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Phone 11</h1>
+                            <p>$87.99</p>
+                            <a href="order1.html">
+                                <button class="order"> Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/mobile%20collection/12.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Phone 12</h1>
+                            <p>$87.99</p>
+                            <a href="order1.html">
+                                <button class="order"> Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </div>
+          
+         </div> 
+         <!-- Tablets -->
+         <div class="product-section" id="product-section-tablets">
+            <div class="product-section-top-container">
+                <div class="section-category-container">
+                    <div class="section-category-type">
+                    <span class="blue-line"></span>
+                    <span class="section-category-text"> Tablet</span>
+                </div>
+                <h1>Explore Our Tablets</h1>
+                </div>
+                <div class="slideshow-buttons-container" data-slideshow="all">
+                    <button class="slideshow-button prev-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                          </svg>
+                    </button>
+                    <button class="slideshow-button next-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                          </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="product-cards-container">
+                <ul>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/tablet%20collection/01.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Tablet 1</h1>
+                            <p>$222.99</p>
+                            <a href="order2.html">
+                            <button class="order">Buy Now</button></a>
+                            <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/tablet%20collection/02.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Tablet 2</h1>
+                            <p>$100.99</p>
+                            <a href="order2.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/tablet%20collection/03.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Tablet 3</h1>
+                            <p>$55.99</p>
+                            <a href="order2.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/tablet%20collection/04.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Tablet 4</h1>
+                            <p>$87.99</p>
+                            <a href="order2.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/tablet%20collection/05.png?raw=true" alt="">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Tablet 5</h1>
+                            <p>$87.99</p>
+                            <a href="order2.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/tablet%20collection/06.png?raw=true" alt="">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Tablet 6</h1>
+                            <p>$87.99</p>
+                            <a href="order2.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/tablet%20collection/07.png?raw=true" alt="">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Tablet 7</h1>
+                            <p>$87.99</p>
+                            <a href="order2.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/tablet%20collection/08.png?raw=true" alt="">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Tablet 8</h1>
+                            <p>$87.99</p>
+                            <a href="order2.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/tablet%20collection/09.png?raw=true" alt="">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Tablet 9</h1>
+                            <p>$87.99</p>
+                            <a href="order2.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/tablet%20collection/10.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Tablet 10</h1>
+                            <p>$87.99</p>
+                            <a href="order2.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/tablet%20collection/11.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Tablet 11</h1>
+                            <p>$87.99</p>
+                            <a href="order2.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/tablet%20collection/12.png?raw=true" alt="Navey Headphones">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>TAblet 12</h1>
+                            <p>$87.99</p>
+                            <a href="order2.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </div>
+          
+         </div> 
+
+<!-- Smartwatchs -->
+         <div class="product-section" id="product-section-smartwatch">
+            <div class="product-section-top-container">
+                <div class="section-category-container">
+                    <div class="section-category-type">
+                    <span class="blue-line"></span>
+                    <span class="section-category-text"> Smartwatchs</span>
+                </div>
+                <h1>Discover Our Smartwatchs</h1>
+                </div>
+                <div class="slideshow-buttons-container" data-slideshow="all">
+                    <button class="slideshow-button prev-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                          </svg>
+                    </button>
+                    <button class="slideshow-button next-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                          </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="product-cards-container">
+                <ul>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/01.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Smart watch 1</h1>
+                            <p>$87.99</p>
+                            <a href="order3.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/02.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Smart watch 2</h1>
+                            <p>$87.99</p>
+                            <a href="order3.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/03.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Smart watch 3</h1>
+                            <p>$87.99</p>
+                            <a href="order3.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/04.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Smart watch 4</h1>
+                            <p>$87.99</p>
+                            <a href="order3.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/05.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Smart watch 5</h1>
+                            <p>$87.99</p>
+                            <a href="order3.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/06.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Smart watch 6</h1>
+                            <p>$87.99</p>
+                            <a href="order3.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/07.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Smart watch 7</h1>
+                            <p>$87.99</p>
+                            <a href="order3.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/08.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Smart watch 8</h1>
+                            <p>$87.99</p>
+                            <a href="order3.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/09.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Smart watch 9</h1>
+                            <p>$87.99</p>
+                            <a href="order3.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/10.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Smart watch 10</h1>
+                            <p>$87.99</p>
+                            <a href="order3.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/11.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Smart watch 11</h1>
+                            <p>$87.99</p>
+                            <a href="order3.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/12.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Smart watch 12</h1>
+                            <p>$87.99</p>
+                            <a href="order3.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    
+                </ul>
+            </div>
+          
+         </div> 
+          <!-- Laptops -->
+         <div class="product-section" id="product-section-laptops">
+            <div class="product-section-top-container">
+                <div class="section-category-container">
+                    <div class="section-category-type">
+                    <span class="blue-line"></span>
+                    <span class="section-category-text"> Laptops</span>
+                </div>
+                <h1>Discover Our Laptops</h1>
+                </div>
+                <div class="slideshow-buttons-container" data-slideshow="all">
+                    <button class="slideshow-button prev-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                          </svg>
+                    </button>
+                    <button class="slideshow-button next-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                          </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="product-cards-container">
+                <ul>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/laptop%20collection/01.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Laptop 1</h1>
+                            <p>$87.99</p>
+                            <a href="order4.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li>
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/laptop%20collection/02.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Laptop 2</h1>
+                            <p>$87.99</p>
+                            <a href="order4.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/laptop%20collection/03.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Laptop 3</h1>
+                            <p>$87.99</p>
+                            <a href="order4.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/laptop%20collection/04.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Laptop 4</h1>
+                            <p>$87.99</p>
+                            <a href="order4.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/laptop%20collection/05.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Laptop 5</h1>
+                            <p>$87.99</p>
+                            <a href="order4.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/laptop%20collection/06.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Laptop 6</h1>
+                            <p>$87.99</p>
+                            <a href="order4.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/laptop%20collection/07.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Laptop 7</h1>
+                            <p>$87.99</p>
+                            <a href="order4.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/laptop%20collection/08.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Laptop 8</h1>
+                            <p>$87.99</p>
+                            <a href="order4.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/laptop%20collection/09.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Laptop 9</h1>
+                            <p>$87.99</p>
+                            <a href="order4.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/laptop%20collection/10.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Laptop 10</h1>
+                            <p>$87.99</p>
+                            <a href="order4.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/laptop%20collection/11.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Laptop 12</h1>
+                            <p>$87.99</p>
+                            <a href="order4.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    <li class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/laptop%20collection/12.png?raw=true" alt="Navey Watch">
+                            <button class="heart-button">
+                                <svg viewBox="0 0 24 24" width="22px" height="22px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7 4C18.87 4 21 6.98 21 9.76C21 15.39 12.16 20 12 20C11.84 20 3 15.39 3 9.76C3 6.98 5.13 4 8.3 4C10.12 4 11.31 4.91 12 5.71C12.69 4.91 13.88 4 15.7 4Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+
+                        </div>
+                        <div class="product-text-container">
+                            <h1>Laptop 12</h1>
+                            <p>$87.99</p>
+                            <a href="order4.html">
+                                <button class="order">Buy Now</button></a>
+                                <button class="blue-button">Add to Cart</button>
+                        </div>
+                    </li> 
+                    
+                </ul>
+            </div>
+          
+         </div> 
+     </div>
+     <script src="main.js"></script>
+
+     <footer>
+        <div class="footer-container">
+            <!-- About Section -->
+            <div class="footer-about">
+                <h3>About Us</h3>
+                <p>We are a leading e-commerce platform offering a wide range of high-quality products at affordable prices. Our mission is to provide an exceptional shopping experience for our customers, with a focus on customer satisfaction and quality service.</p>
+            </div>
+    
+            <!-- Quick Links Section -->
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="main.html">Home</a></li>
+                    <li><a href="mamin.html">Shop</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <!-- <li><a href="terms.html">Terms & Conditions</a></li> -->
+                </ul>
+            </div>
+    
+            <!-- Contact Information -->
+            <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <p><i class="fa fa-phone"></i> +1-123-456-7890</p>
+                <p><i class="fa fa-envelope"></i> support@example.com</p>
+                <p><i class="fa fa-map-marker"></i> 123 E-commerce St, Shopville, USA</p>
+            </div>
+    
+            <!-- Social Media Links -->
+            <div class="footer-social">
+                <h3>Follow Us</h3>
+                <a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
+                <a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
+                <a href="#" target="_blank"><i class="fa fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
+            </div>
+        </div>
+    
+        <!-- Copyright Section -->
+        <div class="footer-bottom">
+            <p>&copy; 2024 E-Commerce Shop. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+
+</body>
+</html>

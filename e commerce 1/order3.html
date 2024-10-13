@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Page</title>
+    <style>
+        .order-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: rgb(218, 184, 163);
+
+            padding: 20px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .product-image {
+            width: 300px;
+            height: 300px;
+        }
+
+        .quantity-selector, .color-selector {
+            margin: 20px 0;
+        }
+
+        .order-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .order-button:hover {
+            background-color: #45a049;
+        }
+        @media screen and (max-width: 767px) {
+  .order-container {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  #product-name {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  #product-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  #product-price {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .quantity-selector,
+  .color-selector {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .color-selector {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  /* Style for the "Place Order" button */
+  .order-container > button {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .order-container > button:hover {
+    background-color: #45a049;
+  }
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="order-container">
+        <h1 id="product-name"></h1>
+        <img src="https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/08.png?raw=true" alt="Product Image" id="product-image" class="product-image">
+        <p>Price: $<span id="product-price"></span></p>
+
+        <!-- Quantity Selector -->
+        <div class="quantity-selector">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" value="1" min="1">
+        </div>
+
+        <!-- Color Selector -->
+        <div class="color-selector">
+            <label for="color">Color:</label>
+            <select id="color" onchange="changeProductImage()">
+                <option value="Red">Black</option>
+                <option value="Blue">Blue</option>
+                <option value="Green">Green</option>
+            </select>
+        </div>
+
+        <button class="order-button" onclick="placeOrder()">Place Order</button>
+    </div>
+
+    <script>
+        // Load selected product details from localStorage
+        const product = JSON.parse(localStorage.getItem('selectedProduct'));
+
+        // Update the page with product details
+        document.getElementById('product-name').textContent = product.name;
+        document.getElementById('product-price').textContent = product.price;
+
+        // Function to handle color change and update the product image
+        function changeProductImage() {
+            const color = document.getElementById('color').value;
+            const productImage = document.getElementById('product-image');
+
+            // Define the image paths for each color
+            const productImages = {
+                Red: 'https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/08.png?raw=true',    // Replace with actual image paths
+                Blue: 'https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/02.png?raw=true',
+                Green: 'https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/smartwatch%20collection/05.png?raw=true'
+            };
+
+            // Change the image based on the selected color
+            productImage.src = productImages[color];
+        }
+
+        // Function to handle order placement
+        function placeOrder() {
+            // Get selected quantity and color
+            const quantity = document.getElementById('quantity').value;
+            const color = document.getElementById('color').value;
+
+            // Update the product details
+            product.quantity = quantity;
+            product.color = color;
+
+            // Save the updated product details to localStorage
+            localStorage.setItem('selectedProduct', JSON.stringify(product));
+
+            // Show order confirmation alert
+            alert('Your order is done!\n' +
+                  `Product: ${product.name}\n` +
+                  `Quantity: ${product.quantity}\n` +
+                  `Color: ${product.color}`);
+
+            // Optionally, redirect to another page after placing order
+            // window.location.href = 'confirmation.html';
+        }
+    </script>
+
+</body>
+</html>
