@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency converter</title>
+    <style>
+
+        *{
+            box-sizing: border-box;
+            margin: 0;
+        }
+        .container {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            height: 100vh;
+            background-image: url('https://files.oaiusercontent.com/file-4M8v3JB2ZN8K6TBLs0RhtsWV?se=2024-11-17T12%3A12%3A35Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D90faeaf8-2567-444f-819b-233401dc6df0.webp&sig=mFsoxARsPFKA3kFaWE2rb4xXzpWdJDCYt8IqzRfWwRQ%3D'); 
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+        }
+
+        header,footer{
+        padding: 8px 16px;  
+        text-align: center;
+        }
+        .currency-converter{
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 400px;
+            /* box-shadow: 5px 5px 5px 3px; */
+            margin: 0 auto;
+            padding: 16px;
+            border-radius: 8px;
+            color: rgb(243, 16, 12);
+        }
+        .input-fields{
+            flex-direction: column;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+        .input-fields input,select{
+            width: 100%;
+            padding: 8px;
+        }
+        .button{
+        display: flex;
+        justify-content: center;}
+
+        .button>button{
+            padding: 8px;
+        }
+        footer{
+            color: rgb(210, 11, 216);
+            font-size: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<main class="container">
+    <header>
+        <h2>Currency Converter - Live Rates at Your Fingertips</h2>
+    </header>
+    <article class="currency-converter">
+        <section class="input-fields">
+            <label for="fromCurrency"><strong>From</strong></label>
+            <select name="fromCurrency" id="fromCurrency">
+
+            </select>
+            <label for="toCurrency"><strong>To</strong></label>
+            <select name="toCurrency" id="toCurrency"></select>
+            <label for="amount"><strong>Amount</strong></label>
+            <input placeholder="Enter Amount" type="number" id="amount" name="amount" value="1">
+            <label for="result"><strong>Result</strong></label>
+            <input type="text" id="result" name="result" readonly>
+        </section>
+        <section class="button">
+            <button id="convert"><strong>Convert</strong></button>
+        </section>
+    </article>
+    <footer><p>© 2024 Currency Converter Created by <strong>Bunekunta Babu</strong></p></footer>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded',()=>{
+
+
+    const convertButton=document.getElementById('convert');
+    convertButton.addEventListener("click",convertCurrency)
+    let currencyInfo;
+
+    function getListOfCurrencies(){
+    return fetch("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json").then(res=>res.json())
+    } 
+    function buildCurrencyOptions(){
+    let listOfCurrencies;
+    getListOfCurrencies().then(result=>{
+        listOfCurrencies=result
+        console.log(listOfCurrencies);
+        for (let key in listOfCurrencies) {
+        let fromCurrencyOption=document.createElement("option");
+        fromCurrencyOption.id=`${key}_from`;
+        fromCurrencyOption.value=key;
+        fromCurrencyOption.textContent=listOfCurrencies[key];
+        fromCurrency.appendChild(fromCurrencyOption);
+        let toCurrencyOption=document.createElement("option");
+        toCurrencyOption.id=`${key}_to`;
+        toCurrencyOption.value=key;
+        toCurrencyOption.textContent=listOfCurrencies[key];
+        toCurrency.appendChild(toCurrencyOption)
+        }
+        })
+    } 
+    function loadCurrencyValues(){
+    fetch("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json")
+    .then(res=>res.json())
+    .then(data=>currencyInfo=data);
+    }
+
+    function convertCurrency(){
+    let fromCurrency=document.getElementById('fromCurrency');  
+    let toCurrency=document.getElementById("toCurrency");  
+
+    const selectedFromCurrency=fromCurrency.value;
+    const selectedToCurrency=toCurrency.value;
+
+    if(selectedFromCurrency&&selectedToCurrency){
+        let {eur}=currencyInfo;
+        let convertedAmount=eur[selectedToCurrency]/eur[selectedFromCurrency];
+        let result=document.getElementById('result');
+        let amountToConvert=document.getElementById("amount").valueAsNumber;
+        result.value=(amountToConvert*convertedAmount).toFixed(2);
+        console.log(currencyInfo,selectedFromCurrency,selectedToCurrency)
+    }
+    }
+    buildCurrencyOptions();
+    loadCurrencyValues();
+    })
+</script>
+</body>
+</html>
