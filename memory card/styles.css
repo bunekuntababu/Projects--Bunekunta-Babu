@@ -1,0 +1,236 @@
+/* Global Styles */
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url('./image/c306c3df-3ec3-4361-aead-85f1898e0f2f.webp'); /* Add your image here */
+    background-size: cover; /* Ensures the image covers the entire background */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-position: center; /* Centers the image */
+    color: #333; /* Sets default text color */
+    line-height: 1.6;
+}
+
+body {
+    display: flex;
+    overflow: hidden;
+}
+
+.game-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+/* Dashboard Styles */
+.dashboard {
+    width: 25%;
+    height: 100vh;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.dashboard h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #ec38bc;
+}
+
+.user-info, .stats, .controls {
+    margin-bottom: 20px;
+    color: #f0a500;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.username-display {
+    font-size: 16px;
+    color: #f0a500;
+    font-weight: bold;
+}
+
+button {
+    background: #282A3A;
+    color: #FFF;
+    border-radius: 5px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 15pt;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background: #ec38bc;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Game Board Styles */
+.board-container {
+    width: 75%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.board {
+    display: grid;
+    grid-gap: 10px;
+    border-radius: 5px;
+    box-shadow: 0 25px 50px rgba(33, 33, 33, 0.25);
+}
+
+/* Adjust grid layout for different levels */
+[data-rows="2"] .board { grid-template-columns: repeat(2, 1fr); }
+[data-rows="4"] .board { grid-template-columns: repeat(4, 1fr); }
+[data-rows="5"] .board { grid-template-columns: repeat(5, 1fr); }
+[data-rows="6"] .board { grid-template-columns: repeat(6, 1fr); }
+
+/* Card Styles */
+.card {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    cursor: pointer;
+    perspective: 1000px;
+    border-radius: 25px 0;
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    background: #282A3A;
+    transition: transform 0.6s;
+    backface-visibility: hidden;
+    border-radius: 25px 0;
+}
+
+.card-front {
+    background: #282A3A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    font-size: 28px;
+    line-height: 80px;
+    text-align: center;
+    color: #282A3A;
+    background: #FDF8E6;
+}
+
+.card.flipped .card-front {
+    transform: rotateY(180deg);
+}
+
+.card.flipped .card-back {
+    transform: rotateY(0);
+}
+
+/* Win Message */
+.win hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background: #FDF8E6;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #28a745;
+    animation: winAnimation 2s ease-in-out;
+}
+
+.win.visible {
+    display: flex;
+}
+
+.win-text {
+    font-size: 24px;
+    color: #282A3A;
+}
+
+.highlight {
+    color: #ec38bc;
+    font-weight: bold;
+}
+
+/* Hidden class for toggling visibility */
+.hidden {
+    display: none;
+}
+
+/* Win Animation */
+@keyframes winAnimation {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Vibration Effect */
+.vibrate {
+    animation: vibrate 0.5s ease;
+}
+
+@keyframes vibrate {
+    0% {
+        transform: translate(0);
+    }
+    25% {
+        transform: translate(-2px, 2px);
+    }
+    50% {
+        transform: translate(2px, -2px);
+    }
+    75% {
+        transform: translate(-2px, -2px);
+    }
+    100% {
+        transform: translate(0);
+    }
+}
+
+/* Login and Signup Form Styles */
+.form-container {
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    text-align: center;
+    border-radius: 10px;
+    align-self: center;
+    justify-self: center;
+    /* height: 100vh; */
+    align-content: center;
+}
+
+.form-container input,
+.form-container button {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+}

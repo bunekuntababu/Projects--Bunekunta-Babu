@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game with Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <!-- Login Form -->
+    <div id="login-form" class="form-container">
+        <h2>Login</h2>
+        <form onsubmit="login(event)">
+            <input type="text" id="login-username" placeholder="Username" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <button type="submit">Login</button>
+            <p>Don't have an account? <a href="#" id="toggle-signup">Sign up</a></p>
+        </form>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signup-form" class="form-container hidden">
+        <h2>Sign Up</h2>
+        <form onsubmit="signup(event)">
+            <input type="text" id="signup-username" placeholder="Username" required>
+            <input type="password" id="signup-password" placeholder="Password" required>
+            <button type="submit">Sign Up</button>
+            <p>Already have an account? <a href="#" id="toggle-login">Log in</a></p>
+        </form>
+    </div>
+
+    <!-- Game Dashboard and Board -->
+    <div class="game-container hidden">
+        <!-- Dashboard on the left -->
+        <div class="dashboard">
+            <h2>Dashboard</h2>
+            <div id="username-display" class="user-info">Welcome, <span id="username"></span></div>
+            <div class="stats">
+                <div class="moves">Attempts: <span id="attempts">0</span></div>
+                <div class="timer">Time: <span id="timer">0 sec</span></div>
+            </div>
+            <div class="controls">
+                <label for="difficulty">Difficulty:</label>
+                <select id="difficulty">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+                <button id="start-button" onclick="startGame()">Start</button>
+                <button id="restart-button" onclick="restartGame()">Restart</button>
+                <button id="quit-button" onclick="quitGame()">Quit</button>
+                <button id="logout-button" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <!-- Game Board on the right -->
+        <div class="board-container">
+            <div id="winMessage" class="win hidden">
+                <span class="win-text">Congratulations! You won!</span>
+            </div>
+            <div id="gameBoard" class="board" data-rows="4" data-cols="4"></div>
+        </div>
+    </div>
+</body>
+</html>
