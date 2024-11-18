@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://github.com/codeharvestguide/files/blob/main/eLife%20Images/product%20page/laptop%20collection/07.png?raw=true');
+            background-size: cover;
+            background-position: center ;
+            background-repeat: no-repeat;
+            /* background-color: #  ; */
+            margin: 0;
+            padding: 60px 0;
+            padding: 0 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            /* background-color: #2bcaba; */
+            padding: 20px;
+            /* box-shadow: 50px 0px 50px rgba(237, 76, 7, 0.1); */
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: rgb(37, 234, 19);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input, textarea, select {
+            margin-bottom: 10px;
+            padding: 8px;
+            font-size: 1em;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 1em;
+            background-color: #204abb;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1bb823;
+        }
+
+        .task {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #d0b8b8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task.high {
+            border-left: 5px solid red;
+        }
+
+        .task.medium {
+            border-left: 5px solid orange;
+        }
+
+        .task.low {
+            border-left: 5px solid green;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+        /* Mobile view adjustments */
+        @media (max-width: 768px) {
+            body {
+                background-size: contain; 
+                background-position: center; 
+                padding: 0 10px; 
+                margin: 0;
+
+            }
+
+            .container {
+                width: 100%; 
+                padding: 10px; 
+            }
+
+            button {
+                font-size: 0.9em; 
+                padding: 8px;
+            }
+
+            .task {
+                padding: 10px;
+                margin: 8px 0;
+            }
+
+            h1, h2 {
+                font-size: 1.5em; 
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Task Manager</h1>
+        <form id="task-form">Task Title
+            <input type="text" id="task-title" placeholder="Task Title" required>Task Description
+            <textarea id="task-desc" placeholder="Task Description" required></textarea>
+            <label for="deadline">Deadline:</label>
+            <input type="datetime-local" id="deadline" required>
+            <label for="priority">Priority:</label>
+            <select id="priority">
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+            </select>
+            <label for="category">Category:</label>
+            <select id="category">
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+            </select>
+            <button type="submit">Add Task</button>
+        </form>
+
+        <h2>Tasks</h2><hr>
+        <div id="task-list"></div>
+
+        <h2>Completed Tasks</h2>
+        <div id="completed-list"></div>
+    </div>
+    <script>
+
+    const taskForm = document.getElementById('task-form');
+    const taskList = document.getElementById('task-list');
+    const completedList = document.getElementById('completed-list');
+
+    taskForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const title = document.getElementById('task-title').value;
+        const description = document.getElementById('task-desc').value;
+        const deadline = document.getElementById('deadline').value;
+        const priority = document.getElementById('priority').value;
+        const category = document.getElementById('category').value;
+
+        // Create task element
+        const task = document.createElement('div');
+        task.classList.add('task', priority);
+        task.innerHTML = `
+            <div>
+                <h3>${title}</h3>
+                <p>${description}</p>
+                <p><strong>Deadline:</strong> ${new Date(deadline).toLocaleString()}</p>
+                <p><strong>Category:</strong> ${category}</p>
+            </div>
+            <button class="complete-btn">Complete</button>
+        `;
+
+        // Add deadline warning color if close to deadline
+        const now = new Date();
+        const taskDeadline = new Date(deadline);
+        const diff = taskDeadline - now;
+        const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
+        const daysLeft = Math.floor(diff / oneDay);
+
+        if (daysLeft <= 0) {
+            task.style.backgroundColor = '#ff0000'; // Red 
+        }else if (daysLeft == 1) {
+            task.style.backgroundColor = '#87ceeb'; // Orange 
+        }else if (daysLeft <= 5) {
+            task.style.backgroundColor = '#ff8c00'; // yello 
+        } else if (daysLeft <= 10) {
+            task.style.backgroundColor = '#32cd32'; // Green 
+        } else {
+            task.style.backgroundColor = '#87ceeb'; // Skyblue  
+        }
+
+        // Add task to task list
+        taskList.appendChild(task);
+        // alert(('Your order is done!'));
+
+        // Clear form
+        taskForm.reset();
+
+        // Mark task as completed
+        const completeBtn = task.querySelector('.complete-btn');
+        completeBtn.addEventListener('click', function() {
+            task.classList.add('completed');
+            task.removeChild(completeBtn);
+            completedList.appendChild(task); // Move to completed list
+        });
+    });
+    </script>
+
+</body>
+</html>
