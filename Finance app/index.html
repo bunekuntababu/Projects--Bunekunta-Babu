@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Tracker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+        body {
+            font-family: 'lobster', cursive;
+            background-image: url('https://github.com/bunekuntababu/imges/blob/main/WhatsApp%20Image%202024-10-15%20at%202.56.07%20PM.jpeg?raw=true');
+            background-size: cover;
+            background-position: center ;
+            background-repeat: no-repeat;
+            /* background-color: #  ; */
+            margin: 0;
+            padding:auto;
+            /* padding: 0 20px; */
+            line-height: 1.6;
+            margin: 0;
+            /* background-color: #be3232;  */
+        }
+        .navbar {
+            background-color: skyblue;
+            color: rgb(19, 18, 18);
+            padding: 10px ;
+            text-align: center;
+            padding-bottom: 15px;
+        }
+        #navbar-logo img{
+            width: 50px;
+            height: 50px;
+            padding: auto;
+            /* display: flex; */
+            float: left;
+        }
+        #navbar-logo1 img{
+            width: 50px;
+            height: 50px;
+            padding: auto;
+
+            /* display: flex; */
+            float: right;
+            
+        }
+        
+        .navbar button {
+            background-color: transparent;
+            border: none;
+            color: rgb(15, 14, 14);
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            /* display: block; */
+        }
+        .navbar button:hover {
+            background-color: #30ba37;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: rgb(9, 236, 233);
+            border-radius: 30px;
+            padding: 10px;
+            /* box-shadow: 0 0 10px rgba(0,0,0,0.1); */
+        }
+        h1, h2 {
+            color: #d91212;
+        }
+        #loginPassword{
+            display: block;
+        }
+        #showPassword{
+            width: 20px;
+            padding-left: 5px;
+            cursor: pointer;
+
+        }
+
+        #showConfirmPassword{
+            width: 20px;
+            padding-left: 5px;
+            cursor: pointer;
+
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #c62020;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .edit-btn {
+            background-color: #2196F3;
+        }
+        .edit-btn:hover {
+            background-color: #0b7dda;
+        }
+        .delete-btn {
+            background-color: #f44336;
+        }
+        .delete-btn:hover {
+            background-color: #da190b;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 2px solid #1f1b1b;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .chart-container {
+            margin-top: 20px;
+            size: 50px;
+        }
+        #loginForm, #signupForm, #contactForm {
+            display: none;
+        }
+        #financeApp {
+            display: none;
+        }
+        #expenseChart {
+            width: 300px;
+            height: 300px;
+            display: flex;
+            padding-bottom: 100px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #1cc5ce;
+            color: black;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            margin: auto;
+            width: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        footer a {
+            color: rgb(29, 27, 27);
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        footer .social-icons img {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+        }
+
+        footer .social-icons a {
+            margin: 0 10px;
+        }
+
+        footer p {
+            margin: 10px 0 0;
+            font-size: 14px;
+            color: #0c0b0b;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            footer {
+                font-size: 14px;
+            }
+
+            footer a {
+                margin: 0 10px;
+                font-size: 14px;
+            }
+
+            footer .social-icons img {
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div id="navbar-logo">
+        <img src="https://github.com/bunekuntababu/imges/raw/refs/heads/main/DALL%C2%B7E%202024-10-16%2018.11.49%20-%20A%20logo%20for%20a%20personal%20finance%20app%20featuring%20the%20letter%20'B'%20prominently%20in%20the%20center.%20The%20letter%20'B'%20should%20be%20in%20dark%20blue,%20and%20the%20background%20color%20.webp" alt="logo"height=20px width="20px">
+
+        </div>
+        <button onclick="showHome()"><strong>Home</strong></button>
+        <button onclick="showLoginForm()"><strong>Login</strong></button>
+        <button onclick="showSignupForm()"><strong>Sign Up</strong></button>
+        <button onclick="showContactForm()"><strong>Contact</strong></button>
+        <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
+        
+    </div>
+
+    <div class="container">
+        <div id="homePage">
+            <h1>Welcome to Personal Finance Tracker</h1>
+            <p>Track your income and expenses, set budgets, and achieve your financial goals!Lorem Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque sapiente enim soluta eius odit quis rerum, voluptas vel esse dignissimos odio ex provident. Odit omnis, non aspernatur ut temporibus natus! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil laborum fugiat quae praesentium aspernatur numquam repudiandae sint dolorum, quas inventore voluptatibus impedit molestias similique sapiente laboriosam nobis dignissimos hic quis! lorem
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur, molestias necessitatibus libero perferendis adipisci impedit, provident non iure aperiam reprehenderit dolor amet quam minima atque ipsa, temporibus perspiciatis quos. 
+            </p>
+
+        </div>
+
+        <form id="loginForm">
+            <h2>Login</h2>
+            <div class="input-group">
+                <label for="loginUsername">Username:</label>
+                <input type="text" id="loginUsername" required>
+            </div>
+            <div class="input-group">
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" name="password">
+                <input type="checkbox" id="showPassword" onclick="togglePassword()"> Show Password
+
+            </div>
+            <button type="button" onclick="login()">Login</button>
+        </form>
+
+        <form id="signupForm">
+            <h2>Sign Up</h2>
+            <div class="input-group">
+                <label for="signupUsername">Username:</label>
+                <input type="text" id="signupUsername" required>
+            </div>
+            <div class="input-group">
+                <label for="signupPassword">Password:</label>
+                <input type="password" id="signupPassword" name="password">
+                <input type="checkbox" id="showPassword" onclick="togglePassword1()"> Show Password
+            </div>
+            <div class="input-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <input type="checkbox" id="showConfirmPassword" onclick="toggleConfirmPassword()"> Show Password
+            </div>
+            <button type="button" onclick="signup()">Sign Up</button>
+            <div class="error" id="errorMessage"></div>
+        </form>
+
+        <div id="contactForm">
+            <h2>Contact Us</h2>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur quasi veritatis dolorum quo ea voluptate nobis modi officia molestias, recusandae nihil quas laborum dignissimos minus fugiat, maiores sapiente asperiores unde. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, nobis! Voluptates quos accusamus, modi incidunt, quod obcaecati ea pariatur nostrum possimus nemo consequatur, esse reiciendis velit aspernatur temporibus reprehenderit enim!
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit dignissimos molestias eaque temporibus, dolorem praesentium ullam ratione molestiae excepturi expedita nesciunt non sint, porro, perferendis quisquam sed aliquam! Deleniti, iste!lorem <br>any inquiries, please email us at: <strong>bunekuntababu@gmail.com </strong></p>
+        </div>
+
+        <div id="financeApp">
+            <h2>Your Financial Dashboard</h2>
+            <div class="input-group">
+                <label for="type">Type:</label>
+                <select id="type">
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" placeholder="Enter amount">
+            </div>
+            
+            <div class="input-group">
+                <label for="category">Category:</label>
+                <select id="category">
+                    <option value="salary">Salary</option>
+                    <option value="food">Food</option>
+                    <option value="rent">Rent</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="transport">Transport</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date">
+            </div>
+            
+            <button id="transactionbtn" onclick="addTransaction()">Add Transaction</button>
+            
+            <h2>Transactions</h2>
+            <table id="transactionTable">
+                <tr>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </table>
+            
+            <h2>Monthly Summary</h2>
+            <p>Total Income: $<span id="totalIncome">0</span></p>
+            <p>Total Expenses: $<span id="totalExpenses">0</span></p>
+            <p>Savings: $<span id="savings">0</span></p>
+            
+            <div class="chart-container">
+                <canvas id="expenseChart" width="300" height="300"></canvas>
+            </div>
+        </div>
+        
+    </div>
+    <footer>
+        <div class="footer-links">
+            <a href="#aboutUsModal">About Us</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div class="social-icons">
+            <a href="https://www.linkedin.com/in/bunekunta-babu-76a584244" alt="LinkedIn"><svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" width="64px" height="64px" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:#FFFFFF;} .st1{fill:#3A559F;} .st2{fill:#F4F4F4;} .st3{fill:#FF0084;} .st4{fill:#0063DB;} .st5{fill:#00ACED;} .st6{fill:#FFEC06;} .st7{fill:#FF0000;} .st8{fill:#25D366;} .st9{fill:#0088FF;} .st10{fill:#314358;} .st11{fill:#EE6996;} .st12{fill:#01AEF3;} .st13{fill:#FFFEFF;} .st14{fill:#F06A35;} .st15{fill:#00ADEF;} .st16{fill:#1769FF;} .st17{fill:#1AB7EA;} .st18{fill:#6001D1;} .st19{fill:#E41214;} .st20{fill:#05CE78;} .st21{fill:#7B519C;} .st22{fill:#FF4500;} .st23{fill:#00F076;} .st24{fill:#FFC900;} .st25{fill:#00D6FF;} .st26{fill:#FF3A44;} .st27{fill:#FF6A36;} .st28{fill:#0061FE;} .st29{fill:#F7981C;} .st30{fill:#EE1B22;} .st31{fill:#EF3561;} .st32{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;} .st33{fill:#0097D3;} .st34{fill:#01308A;} .st35{fill:#019CDE;} .st36{fill:#FFD049;} .st37{fill:#16A05D;} .st38{fill:#4486F4;} .st39{fill:none;} .st40{fill:#34A853;} .st41{fill:#4285F4;} .st42{fill:#FBBC05;} .st43{fill:#EA4335;} </style> <path class="st33" d="M23,0H9C4,0,0,4,0,9v14c0,5,4,9,9,9h14c5,0,9-4,9-9V9C32,4,28,0,23,0z"></path> <path class="st0" d="M12,25c0,0.6-0.4,1-1,1H7c-0.6,0-1-0.4-1-1V13c0-0.6,0.4-1,1-1h4c0.6,0,1,0.4,1,1V25z M9,11c-1.7,0-3-1.3-3-3 s1.3-3,3-3s3,1.3,3,3S10.7,11,9,11z M26,25c0,0.6-0.4,1-1,1h-3c-0.6,0-1-0.4-1-1v-3.5v-1v-2c0-0.8-0.7-1.5-1.5-1.5S18,17.7,18,18.5 v2v1V25c0,0.6-0.4,1-1,1h-3c-0.6,0-1-0.4-1-1V13c0-0.6,0.4-1,1-1h4c0.3,0,0.5,0.1,0.7,0.3c0.6-0.2,1.2-0.3,1.8-0.3 c3,0,5.5,2.5,5.5,5.5V25z"></path> </g></svg></a>
+            <a href="https://www.instagram.com/babu568321221?igsh=MXBtbmh5Y2s5NjJtdQ==" alt="Instagram"><svg width="64px" height="64px" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect x="2" y="2" width="28" height="28" rx="6" fill="url(#paint0_radial_87_7153)"></rect> <rect x="2" y="2" width="28" height="28" rx="6" fill="url(#paint1_radial_87_7153)"></rect> <rect x="2" y="2" width="28" height="28" rx="6" fill="url(#paint2_radial_87_7153)"></rect> <path d="M23 10.5C23 11.3284 22.3284 12 21.5 12C20.6716 12 20 11.3284 20 10.5C20 9.67157 20.6716 9 21.5 9C22.3284 9 23 9.67157 23 10.5Z" fill="white"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M16 21C18.7614 21 21 18.7614 21 16C21 13.2386 18.7614 11 16 11C13.2386 11 11 13.2386 11 16C11 18.7614 13.2386 21 16 21ZM16 19C17.6569 19 19 17.6569 19 16C19 14.3431 17.6569 13 16 13C14.3431 13 13 14.3431 13 16C13 17.6569 14.3431 19 16 19Z" fill="white"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M6 15.6C6 12.2397 6 10.5595 6.65396 9.27606C7.2292 8.14708 8.14708 7.2292 9.27606 6.65396C10.5595 6 12.2397 6 15.6 6H16.4C19.7603 6 21.4405 6 22.7239 6.65396C23.8529 7.2292 24.7708 8.14708 25.346 9.27606C26 10.5595 26 12.2397 26 15.6V16.4C26 19.7603 26 21.4405 25.346 22.7239C24.7708 23.8529 23.8529 24.7708 22.7239 25.346C21.4405 26 19.7603 26 16.4 26H15.6C12.2397 26 10.5595 26 9.27606 25.346C8.14708 24.7708 7.2292 23.8529 6.65396 22.7239C6 21.4405 6 19.7603 6 16.4V15.6ZM15.6 8H16.4C18.1132 8 19.2777 8.00156 20.1779 8.0751C21.0548 8.14674 21.5032 8.27659 21.816 8.43597C22.5686 8.81947 23.1805 9.43139 23.564 10.184C23.7234 10.4968 23.8533 10.9452 23.9249 11.8221C23.9984 12.7223 24 13.8868 24 15.6V16.4C24 18.1132 23.9984 19.2777 23.9249 20.1779C23.8533 21.0548 23.7234 21.5032 23.564 21.816C23.1805 22.5686 22.5686 23.1805 21.816 23.564C21.5032 23.7234 21.0548 23.8533 20.1779 23.9249C19.2777 23.9984 18.1132 24 16.4 24H15.6C13.8868 24 12.7223 23.9984 11.8221 23.9249C10.9452 23.8533 10.4968 23.7234 10.184 23.564C9.43139 23.1805 8.81947 22.5686 8.43597 21.816C8.27659 21.5032 8.14674 21.0548 8.0751 20.1779C8.00156 19.2777 8 18.1132 8 16.4V15.6C8 13.8868 8.00156 12.7223 8.0751 11.8221C8.14674 10.9452 8.27659 10.4968 8.43597 10.184C8.81947 9.43139 9.43139 8.81947 10.184 8.43597C10.4968 8.27659 10.9452 8.14674 11.8221 8.0751C12.7223 8.00156 13.8868 8 15.6 8Z" fill="white"></path> <defs> <radialGradient id="paint0_radial_87_7153" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(12 23) rotate(-55.3758) scale(25.5196)"> <stop stop-color="#B13589"></stop> <stop offset="0.79309" stop-color="#C62F94"></stop> <stop offset="1" stop-color="#8A3AC8"></stop> </radialGradient> <radialGradient id="paint1_radial_87_7153" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(11 31) rotate(-65.1363) scale(22.5942)"> <stop stop-color="#E0E8B7"></stop> <stop offset="0.444662" stop-color="#FB8A2E"></stop> <stop offset="0.71474" stop-color="#E2425C"></stop> <stop offset="1" stop-color="#E2425C" stop-opacity="0"></stop> </radialGradient> <radialGradient id="paint2_radial_87_7153" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(0.500002 3) rotate(-8.1301) scale(38.8909 8.31836)"> <stop offset="0.156701" stop-color="#406ADC"></stop> <stop offset="0.467799" stop-color="#6A45BE"></stop> <stop offset="1" stop-color="#6A45BE" stop-opacity="0"></stop> </radialGradient> </defs> </g></svg></a>
+            <a href="https://www.facebook.com/babu.bunekunta.5/" alt="facebook"><svg width="64px" height="64px" viewBox="0 0 266.89 266.89" xmlns="http://www.w3.org/2000/svg" fill="#3584e4"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="1.60137"></g><g id="SVGRepo_iconCarrier"><path d="M252.164 266.895c8.134 0 14.729-6.596 14.729-14.73V14.73c0-8.137-6.596-14.73-14.729-14.73H14.73C6.593 0 0 6.594 0 14.73v237.434c0 8.135 6.593 14.73 14.73 14.73h237.434z" fill="#3584e4"></path><path d="M184.152 266.895V163.539h34.692l5.194-40.28h-39.887V97.542c0-11.662 3.238-19.609 19.962-19.609l21.329-.01V41.897c-3.689-.49-16.351-1.587-31.08-1.587-30.753 0-51.807 18.771-51.807 53.244v29.705h-34.781v40.28h34.781v103.355h41.597z" fill="#ffffff"></path></g></svg></a>
+            <a href="https://x.com/BBabu59817"alt="Twitter"><svg width="64px" height="64px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="24" cy="24" r="20" fill="#1DA1F2"></circle> <path fill-rule="evenodd" clip-rule="evenodd" d="M36 16.3086C35.1177 16.7006 34.1681 16.9646 33.1722 17.0838C34.1889 16.4742 34.9697 15.5095 35.3368 14.36C34.3865 14.9247 33.3314 15.3335 32.2107 15.5551C31.3123 14.5984 30.0316 14 28.6165 14C25.8975 14 23.6928 16.2047 23.6928 18.9237C23.6928 19.3092 23.7368 19.6852 23.8208 20.046C19.7283 19.8412 16.1005 17.8805 13.6719 14.9015C13.2479 15.6287 13.0055 16.4742 13.0055 17.3766C13.0055 19.0845 13.8735 20.5916 15.1958 21.4747C14.3878 21.4491 13.6295 21.2275 12.9647 20.8587V20.9203C12.9647 23.3066 14.663 25.296 16.9141 25.7496C16.5013 25.8616 16.0661 25.9224 15.6174 25.9224C15.2998 25.9224 14.991 25.8912 14.6902 25.8336C15.3166 27.7895 17.1357 29.2134 19.2899 29.2534C17.6052 30.5733 15.4822 31.3612 13.1751 31.3612C12.7767 31.3612 12.3848 31.338 12 31.2916C14.1791 32.6884 16.7669 33.5043 19.5475 33.5043C28.6037 33.5043 33.5562 26.0016 33.5562 19.4956C33.5562 19.282 33.5522 19.0693 33.5418 18.8589C34.5049 18.1629 35.34 17.2958 36 16.3086Z" fill="white"></path> </g></svg></a>
+            
+        </div>
+        <p>&copy; 2024 Your Website. All Rights Reserved.App Created by <strong>Bunekunta Babu 212212</strong></p>
+        
+    </footer>
+
+    <script>
+        let currentUser = null;
+        let transactions = [];
+        let editingIndex = -1;
+
+        function showHome() {
+            document.getElementById('homePage').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('contactForm').style.display = 'none';
+            document.getElementById('financeApp').style.display = 'none';
+        }
+
+        function showLoginForm() {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('contactForm').style.display = 'none';
+            document.getElementById('financeApp').style.display = 'none';
+        }
+
+        function showSignupForm() {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'block';
+            document.getElementById('contactForm').style.display = 'none';
+            document.getElementById('financeApp').style.display = 'none';
+        }
+
+        function showContactForm() {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('contactForm').style.display = 'block';
+            document.getElementById('financeApp').style.display = 'none';
+        }
+
+        function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const users = JSON.parse(localStorage.getItem('users')) || {};
+
+            if (users[username] && users[username].password === password) {
+                currentUser = username;
+                loadUserData();
+                showFinanceApp();
+            } else {
+                alert('Invalid username or password');
+            }
+        }
+        function togglePassword() {
+            var passwordField = document.getElementById("loginPassword");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+
+        function signup() {
+            const username = document.getElementById('signupUsername').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            let users = JSON.parse(localStorage.getItem('users')) || {};
+
+            errorMessage.textContent = "";
+
+            if (users[username]) {
+                alert('Username already exists');
+            } else if (password !== confirmPassword) {
+            // Check if passwords match
+                errorMessage.textContent = "Passwords do not match!";
+            }else {
+                users[username] = { password: password, transactions: [] };
+                localStorage.setItem('users', JSON.stringify(users));
+                currentUser = username;
+                transactions = [];
+                showFinanceApp();
+            }
+        }
+        function togglePassword1() {
+            var passwordField = document.getElementById("signupPassword");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+        function toggleConfirmPassword() {
+        var confirmPasswordField = document.getElementById("confirmPassword");
+        if (confirmPasswordField.type === "password") {
+            confirmPasswordField.type = "text";
+        } else {
+            confirmPasswordField.type = "password";
+        }
+    }
+
+        function logout() {
+            currentUser = null;
+            showHome();
+            document.getElementById('logoutBtn').style.display = 'none';
+        }
+
+        function showFinanceApp() {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('contactForm').style.display = 'none';
+            document.getElementById('financeApp').style.display = 'block';
+            document.getElementById('logoutBtn').style.display = 'inline-block';
+            updateTransactionTable();
+            updateSummary();
+            updateChart();
+        }
+
+        function loadUserData() {
+            const users = JSON.parse(localStorage.getItem('users')) || {};
+            transactions = users[currentUser].transactions || [];
+        }
+
+        function saveUserData() {
+            let users = JSON.parse(localStorage.getItem('users')) || {};
+            users[currentUser].transactions = transactions;
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        function addTransaction() {
+            const type = document.getElementById('type').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const category = document.getElementById('category').value;
+            const date = document.getElementById('date').value;
+
+            if (isNaN(amount) || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+
+            const transaction = { type, amount, category, date };
+
+            if (editingIndex === -1) {
+                transactions.push(transaction);
+            } else {
+                transactions[editingIndex] = transaction;
+                editingIndex = -1;
+                document.querySelector('button').textContent = 'Add Transaction';
+            }
+
+            saveUserData();
+            updateTransactionTable();
+            updateSummary();
+            updateChart();
+            clearForm();
+        }
+
+        function clearForm() {
+            document.getElementById('type').value = 'income';
+            document.getElementById('amount').value = '';
+            document.getElementById('category').value = 'salary';
+            document.getElementById('date').value = '';
+        }
+
+        function updateTransactionTable() {
+            const table = document.getElementById('transactionTable');
+            // Clear existing rows except header
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+
+            transactions.forEach((transaction, index) => {
+                const row = table.insertRow(-1);
+                row.insertCell(0).textContent = transaction.type;
+                row.insertCell(1).textContent = '$' + transaction.amount.toFixed(2);
+                row.insertCell(2).textContent = transaction.category;
+                row.insertCell(3).textContent = transaction.date;
+                
+                const actionsCell = row.insertCell(4);
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Edit';
+                editBtn.className = 'edit-btn';
+                editBtn.onclick = () => editTransaction(index);
+                actionsCell.appendChild(editBtn);
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.onclick = () => deleteTransaction(index);
+                actionsCell.appendChild(deleteBtn);
+            });
+        }
+
+        function editTransaction(index) {
+            const transaction = transactions[index];
+            document.getElementById('type').value = transaction.type;
+            document.getElementById('amount').value = transaction.amount;
+            document.getElementById('category').value = transaction.category;
+            document.getElementById('date').value = transaction.date;
+        
+            editingIndex = index;
+        
+        
+            document.getElementById('transactionbtn').innerText = 'Update Transaction';
+        }
+            //     document.querySelector('button').textContent = 'Add Transaction';
+        // }
+
+        function deleteTransaction(index) {
+            if (confirm('Are you sure you want to delete this transaction?')) {
+                transactions.splice(index, 1);
+                saveUserData();
+                updateTransactionTable();
+                updateSummary();
+                updateChart();
+            }
+        }
+
+        function updateSummary() {
+            const totalIncome = transactions
+                .filter(t => t.type === 'income')
+                .reduce((sum, t) => sum + t.amount, 0);
+            const totalExpenses = transactions
+                .filter(t => t.type === 'expense')
+                .reduce((sum, t) => sum + t.amount, 0);
+            const savings = totalIncome - totalExpenses;
+
+            document.getElementById('totalIncome').textContent = totalIncome.toFixed(2);
+            document.getElementById('totalExpenses').textContent = totalExpenses.toFixed(2);
+            document.getElementById('savings').textContent = savings.toFixed(2);
+        }
+
+        function updateChart() {
+            const ctx = document.getElementById('expenseChart').getContext('2d');
+            const expensesByCategory = {};
+
+            transactions.filter(t => t.type === 'expense').forEach(t => {
+                expensesByCategory[t.category] = (expensesByCategory[t.category] || 0) + t.amount;
+            });
+
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(expensesByCategory),
+                    datasets: [{
+                        data: Object.values(expensesByCategory),
+                        backgroundColor: [
+                            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                        display: true,
+                        text: 'Expenses by Category'
+                    }
+                }
+            });
+        }
+
+        // // Initialize the app
+        showHome();
+    </script>
+</body>
+</html>
